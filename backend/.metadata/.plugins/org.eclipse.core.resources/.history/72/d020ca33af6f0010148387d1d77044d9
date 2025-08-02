@@ -1,0 +1,11 @@
+package com.elearning.backend.service;
+
+import com.elearning.backend.dto.ApiResponse;
+import com.elearning.backend.dto.UserDTO;
+
+
+public interface UserService {
+
+	ApiResponse registerUser(UserDTO user);
+	
+}
