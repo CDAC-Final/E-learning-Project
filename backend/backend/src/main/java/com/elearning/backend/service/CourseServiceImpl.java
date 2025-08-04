@@ -2,6 +2,7 @@ package com.elearning.backend.service;
 
 import java.util.List;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.elearning.backend.custom_exceptions.ApiException;
 import com.elearning.backend.custom_exceptions.ResourceNotFoundException;
 import com.elearning.backend.dao.CourseDao;
-import com.elearning.backend.dao.UserDao;
 import com.elearning.backend.dto.*;
 import com.elearning.backend.entities.*;
+
 
 import lombok.AllArgsConstructor;
 
@@ -21,10 +22,13 @@ import lombok.AllArgsConstructor;
 public class CourseServiceImpl implements CourseService{
 	
 	private final CourseDao courseDao;
-	private ModelMapper mapper;
+	private final ModelMapper mapper;
 
 	@Override
 	public ApiResponse addNewCourse(CourseAddDTO dto) {
+		if (courseDao.existsByTitle(dto.getTitle()))
+			throw new ApiException
+			("Dup Course Name - add course failed");
 		Course entity=mapper.map(dto, Course.class);
 		courseDao.save(entity);
 		return new ApiResponse("Course added successfully!");
@@ -47,8 +51,8 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	public ApiResponse updateCourseByid(Long courseId, CourseAddDTO dto) {
-		if (courseDao.existsByName(dto.getTitle()))
-			throw new ApiException("Dup Restaurant Name - update restaurant failed ");
+		if (courseDao.existsByTitle(dto.getTitle()))
+			throw new ApiException("Update course failed ");
 		
 		Course entity = courseDao.findById(courseId)
 				.orElseThrow(() ->
