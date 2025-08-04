@@ -1,7 +1,6 @@
 package com.elearning.backend.service;
 
 import java.util.List;
-
 import com.elearning.backend.dto.*;
 
 public interface CourseService {

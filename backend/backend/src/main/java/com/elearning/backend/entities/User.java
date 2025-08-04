@@ -46,10 +46,15 @@ public class User extends BaseEntity {
 	@JsonIgnore
 	List<Enrollment> enrollments=new ArrayList<>();
 	
-	@OneToMany(mappedBy="myUser")
-	@JsonIgnore
-	List<Payment> payments=new ArrayList<>();
-	
+	public void addEnrollment(Enrollment enrollment) {
+		this.enrollments.add(enrollment);
+		enrollment.setMyUser(this);
+	}
+
+	public void removeEnrollment(Enrollment enrollment) {
+		this.enrollments.remove(enrollment);
+		enrollment.setMyUser(null);
+	}
 }
 
 

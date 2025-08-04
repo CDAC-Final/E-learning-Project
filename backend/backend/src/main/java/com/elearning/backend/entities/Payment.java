@@ -1,6 +1,7 @@
 package com.elearning.backend.entities;
 
 import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,18 +13,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "payments")
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class Payment{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+public class Payment extends BaseEntity{
 	private double price;
+	
+	@Enumerated(EnumType.STRING)
+	private PaymentStatus paymentStatus;
 	
 	@ManyToOne
 	@JoinColumn(name="course_id",nullable = false)
@@ -34,7 +33,7 @@ public class Payment{
 	private User myUser;
 	
 	@CreationTimestamp
-	@Column(name="order_date")
-	private LocalDateTime orderDate; 
+	@Column(name="payment_date")
+	private LocalDateTime paymentDate; 
 }
 

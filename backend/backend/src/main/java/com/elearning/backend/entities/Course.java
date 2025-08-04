@@ -27,10 +27,6 @@ public class Course extends BaseEntity {
 	@JsonIgnore
 	List<Enrollment> enrollments=new ArrayList<>();
 	
-	@OneToMany(mappedBy="myCourse")
-	@JsonIgnore
-	List<Payment> payments=new ArrayList<>();
-
 	@OneToMany(mappedBy="myCourse",cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Lecture> lectures=new ArrayList<>();
@@ -43,6 +39,16 @@ public class Course extends BaseEntity {
 	public void removeLecture(Lecture lecture) {
 		this.lectures.remove(lecture);
 		lecture.setMyCourse(null);
+	}
+	
+	public void addEnrollment(Enrollment enrollment) {
+		this.enrollments.add(enrollment);
+		enrollment.setMyCourse(this);
+	}
+
+	public void removeEnrollment(Enrollment enrollment) {
+		this.enrollments.remove(enrollment);
+		enrollment.setMyCourse(null);
 	}
 	
 }

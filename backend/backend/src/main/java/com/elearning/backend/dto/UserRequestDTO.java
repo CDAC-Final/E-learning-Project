@@ -20,22 +20,18 @@ import lombok.Setter;
 @Setter
 public class UserRequestDTO {
 	@NotBlank(message = "first name is required")
-	@Length(min = 5, max = 20, message = "invalid length of firstname")
-	private String firstName;
-	@NotBlank(message = "last name is required")
-	private String lastName;
+	@Length(min = 3, max = 20, message = "invalid length of firstname")
+	private String name;
+	
 	@NotBlank
 	@Email(message = "invalid email format")
 	private String email;
+	
 	@Pattern
 	(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", 
 	message = "Invalid password format")
 	private String password;
-	@NotNull
-	@Past(message = "invalid date")
-	private LocalDate dob;
+	
 	@NotNull
 	private UserRole userRole;
-	@Range(min = 1000,max=5000)
-	private double subscriptionAmount;
 }
