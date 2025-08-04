@@ -1,5 +1,0 @@
-package com.elarning.backend.security;
-
-public class JwtAutenticationFilter {
-
-}
