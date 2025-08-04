@@ -1,0 +1,22 @@
+package com.elearning.backend.config;
+
+
+
+	
+	
+	@Configuration
+	public class SecurityConfig {
+
+	    // Needed to inject AuthenticationManager in your controller
+	    @Bean
+	    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+	        return config.getAuthenticationManager();
+	    }
+
+	    // Password encoder used in your service while saving users
+	    @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
+	}
+
