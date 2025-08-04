@@ -1,7 +1,5 @@
 package com.elearning.backend.dto;
 
-import com.elearning.backend.entity.Role;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

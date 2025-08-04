@@ -11,6 +11,6 @@ public interface UserService {
 
 	ApiResponse registerUser(UserRegistrationDTO user);
 	List<UserResponseDTO>getAllUsers();
-	
+	ApiResponse delteUserById(Long id);
 	
 }

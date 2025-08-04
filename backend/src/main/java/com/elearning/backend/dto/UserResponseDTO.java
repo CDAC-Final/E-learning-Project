@@ -1,6 +1,5 @@
 package com.elearning.backend.dto;
 
-import com.elearning.backend.entity.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;

@@ -2,8 +2,10 @@ package com.elearning.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.elearning.backend.dto.ApiResponse;
@@ -11,12 +13,9 @@ import com.elearning.backend.dto.UserResponseDTO;
 import com.elearning.backend.dto.UserRegistrationDTO;
 import com.elearning.backend.entity.Role;
 import com.elearning.backend.entity.User;
-import com.elearning.backend.exception.EmailAlreadyExistsException;
 import com.elearning.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
-import com.elearning.backend.exception.EmailAlreadyExistsException;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -24,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	
 	private final  UserRepository userRepository;
     private final ModelMapper modelMapper;
-    
+    private final PasswordEncoder passwordEncoder;
 	
 
 	@Override
@@ -37,6 +36,7 @@ public class UserServiceImpl implements UserService {
 //		}
 		
 		User user = modelMapper.map(userDTO, User.class);
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.ROLE_STUDENT);
 		System.out.println("Mapped user = " + user);
 		
@@ -61,6 +61,17 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return userDtos;
+	}
+
+
+
+	@Override
+	public ApiResponse delteUserById(Long id) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found with id " + id));
+		userRepository.delete(user);
+		
+		return new ApiResponse("User delted successfully");
 	}
 
 }
