@@ -1,5 +1,20 @@
+<<<<<<< HEAD:backend/.metadata/.plugins/org.eclipse.core.resources/.history/11/d0ded0863b710010186680029fd5f2f2
 package com.elearning.backend.service;
 
 public class CustomUserDetailService {
 
 }
+=======
+package com.elearning.backend.service;
+
+import com.elearning.backend.dto.ApiResponse;
+import com.elearning.backend.dto.LectureDTO;
+
+public interface LectureService {
+
+	ApiResponse addLectureToCourse(Long courseId, LectureDTO dto);
+
+	ApiResponse deleteLectureFromCourse(Long courseId, Long lectureId);
+
+}
+>>>>>>> fb495d4e7715dad5f92b86d6ca3453aea7d47973:backend/backend/src/main/java/com/elearning/backend/service/LectureService.java
