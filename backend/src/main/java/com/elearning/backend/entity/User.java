@@ -41,6 +41,6 @@ public class User extends BaseEntity {
     @JsonIgnore
     private List<Enrollment> enrollments = new ArrayList<>();
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Payment> payments = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Payment> payments = new ArrayList<>();
 }

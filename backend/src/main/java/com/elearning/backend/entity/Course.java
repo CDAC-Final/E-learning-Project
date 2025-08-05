@@ -34,9 +34,9 @@ public class Course extends BaseEntity {
     @JsonIgnore
     private List<Lecture> lectures = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Payment> payments = new ArrayList<>();
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+//    private List<Payment> payments = new ArrayList<>();
 
     public void addLecture(Lecture lecture) {
         this.lectures.add(lecture);
@@ -58,13 +58,13 @@ public class Course extends BaseEntity {
         enrollment.setCourse(null);
     }
     
-    public void addPayment(Payment payment) {
-        this.payments.add(payment);
-        payment.setCourse(this);
-    }
-
-    public void removePayment(Payment payment) {
-        this.payments.remove(payment);
-        payment.setCourse(null);
-    }
+//    public void addPayment(Payment payment) {
+//        this.payments.add(payment);
+//        payment.setCourse(this);
+//    }
+//
+//    public void removePayment(Payment payment) {
+//        this.payments.remove(payment);
+//        payment.setCourse(null);
+//    }
 }
