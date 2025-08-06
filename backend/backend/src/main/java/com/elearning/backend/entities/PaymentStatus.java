@@ -1,5 +1,5 @@
-package com.elearning.backend.entities;
-
-public enum PaymentStatus {
-	PENDING,COMPLETED
-}
+	package com.elearning.backend.entities;
+	
+	public enum PaymentStatus {
+		PENDING,COMPLETED,FAILED
+	}
