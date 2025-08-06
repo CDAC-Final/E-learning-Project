@@ -2,16 +2,16 @@ package com.elearning.backend.service;
 
 import java.util.List;
 
-import com.elearning.backend.entities.Payment;
+import com.elearning.backend.dto.PaymentRequestDTO;
+import com.elearning.backend.dto.PaymentResponseDTO;
 
 public interface PaymentService {
 
-	Payment createPayment(Payment payment);
+    PaymentResponseDTO createPayment(PaymentRequestDTO paymentRequest);
 
-	List<Payment> getAllPayments();
+    List<PaymentResponseDTO> getAllPayments();
 
-	Payment getPaymentById(Long id);
+    PaymentResponseDTO getPaymentById(Long id);
 
-	void deletePayment(Long id);
-
+    void deletePayment(Long id);
 }
