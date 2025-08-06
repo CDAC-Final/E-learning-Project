@@ -1,5 +1,13 @@
 package com.elearning.backend.service;
 
-public interface EnrollmentService {
+import java.util.List;
 
+import com.elearning.backend.dto.ApiResponse;
+import com.elearning.backend.dto.EnrollmentDTO;
+import com.elearning.backend.dto.EnrollmentResponseDTO;
+import com.elearning.backend.entity.Enrollment;
+
+public interface EnrollmentService {
+   public ApiResponse  enrollUser(EnrollmentDTO dto);
+   public List<EnrollmentResponseDTO> getUserEnrollments(Long userId);
 }

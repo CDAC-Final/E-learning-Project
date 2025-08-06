@@ -1,47 +1,77 @@
 package com.elearning.backend.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.elearning.backend.custom_exceptions.ApiException;
-import com.elearning.backend.custom_exceptions.AuthenticationException;
-import com.elearning.backend.custom_exceptions.ResourceNotFoundException;
-import com.elearning.backend.dao.UserDao;
 import com.elearning.backend.dto.ApiResponse;
-import com.elearning.backend.dto.AuthRequest;
-import com.elearning.backend.dto.UserRequestDTO;
-import com.elearning.backend.dto.UserRespDTO;
-import com.elearning.backend.entities.User;
+import com.elearning.backend.dto.UserResponseDTO;
+import com.elearning.backend.dto.UserRegistrationDTO;
+import com.elearning.backend.entity.Role;
+import com.elearning.backend.entity.User;
+import com.elearning.backend.repository.UserRepository;
 
-import lombok.AllArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
 @Service
-@Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
 	
-	private final UserDao userDao;
-	private ModelMapper mapper;
+	private final  UserRepository userRepository;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
+	
 
 	@Override
-	public UserRespDTO authenticate(AuthRequest dto) {
+	public ApiResponse registerUser(UserRegistrationDTO userDTO) {
+		// TODO Auto-generated method stub
 		
-		User entity = userDao.findByEmailAndPassword(dto.getEmail(), dto.getPassword())
-				.orElseThrow(() -> new AuthenticationException("Invalid login !!!!!"));
-
-		return mapper.map(entity, UserRespDTO.class);
+//		if(userRepository.findByEmail(userDTO.getEmail()).isPresent())
+//		{
+//			throw new EmailAlreadyExistsException("Email already registered");
+//		}
+		
+		User user = modelMapper.map(userDTO, User.class);
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setRole(Role.ROLE_STUDENT);
+		System.out.println("Mapped user = " + user);
+		
+		userRepository.save(user);
+		
+		return new ApiResponse("User added Successfully " );
+		
+		
 	}
 
-	@Override
-	public UserRespDTO signUp(UserRequestDTO dto) {
-		
-		if (userDao.existsByEmail(dto.getEmail()))
-			throw new ApiException("Dup Email detected - User exists already!!!!");
 
-		User entity = mapper.map(dto, User.class);
-		return mapper.map(userDao.save(entity), UserRespDTO.class);
+
+	@Override
+	public List<UserResponseDTO> getAllUsers() {
+		// TODO Auto-generated method stub
+		List<UserResponseDTO> userDtos = new ArrayList<>();
+		List<User> users = userRepository.findAll();
+		for (User us: users)
+		{
+			UserResponseDTO dto  = modelMapper.map(us, UserResponseDTO.class);
+			userDtos.add(dto);
+		}
+		
+		return userDtos;
+	}
+
+
+
+	@Override
+	public ApiResponse delteUserById(Long id) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found with id " + id));
+		userRepository.delete(user);
+		
+		return new ApiResponse("User delted successfully");
 	}
 
 }

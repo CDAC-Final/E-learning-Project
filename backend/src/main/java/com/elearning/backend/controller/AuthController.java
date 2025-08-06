@@ -1,0 +1,53 @@
+package com.elearning.backend.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
+import com.elearning.backend.dto.ApiResponse;
+import com.elearning.backend.dto.UserRegistrationDTO;
+import com.elearning.backend.dto.LoginRequestDTO;
+import com.elearning.backend.dto.AuthResponseDTO;
+import com.elearning.backend.service.UserService;
+import com.elearning.backend.service.AuthService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final AuthService authService;
+
+    // ------------------ REGISTER ------------------
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDTO userDTO) {
+        ApiResponse response = userService.registerUser(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    // ------------------ LOGIN ------------------
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO loginRequest) {
+        // Authenticate user credentials
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                loginRequest.getEmail(),
+                loginRequest.getPassword()
+            )
+        );
+
+        // Load user details and generate JWT
+        var userDetails = authService.loadUserByUsername(loginRequest.getEmail());
+        String jwtToken = authService.generateToken(userDetails);
+
+        // Return token in response
+        return ResponseEntity.ok(new AuthResponseDTO(jwtToken));
+    }
+}
+
