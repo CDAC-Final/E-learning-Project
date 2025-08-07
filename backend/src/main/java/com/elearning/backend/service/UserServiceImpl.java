@@ -8,12 +8,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.elearning.backend.dao.UserDao;
 import com.elearning.backend.dto.ApiResponse;
 import com.elearning.backend.dto.UserResponseDTO;
 import com.elearning.backend.dto.UserRegistrationDTO;
 import com.elearning.backend.entity.Role;
 import com.elearning.backend.entity.User;
-import com.elearning.backend.repository.UserRepository;
+
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	
-	private final  UserRepository userRepository;
+	private final  UserDao userDao;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 	
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 		user.setRole(Role.ROLE_STUDENT);
 		System.out.println("Mapped user = " + user);
 		
-		userRepository.save(user);
+		userDao.save(user);
 		
 		return new ApiResponse("User added Successfully " );
 		
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserResponseDTO> getAllUsers() {
 		// TODO Auto-generated method stub
 		List<UserResponseDTO> userDtos = new ArrayList<>();
-		List<User> users = userRepository.findAll();
+		List<User> users = userDao.findAll();
 		for (User us: users)
 		{
 			UserResponseDTO dto  = modelMapper.map(us, UserResponseDTO.class);
@@ -68,8 +69,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ApiResponse delteUserById(Long id) {
 		// TODO Auto-generated method stub
-		User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User Not Found with id " + id));
-		userRepository.delete(user);
+		User user = userDao.findById(id).orElseThrow(()-> new RuntimeException("User Not Found with id " + id));
+		userDao.delete(user);
 		
 		return new ApiResponse("User delted successfully");
 	}

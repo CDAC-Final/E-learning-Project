@@ -1,4 +1,4 @@
-package com.elearning.backend.repository;
+package com.elearning.backend.dao;
 
 import java.util.List;
 
@@ -8,8 +8,9 @@ import com.elearning.backend.entity.Course;
 import com.elearning.backend.entity.Enrollment;
 import com.elearning.backend.entity.User;
 
-public interface EnrollmentRepository extends JpaRepository<Enrollment ,Long> {
-
-	boolean existsByUserAndCourse(User user , Course course);
+public interface EnrollmentDao extends JpaRepository<Enrollment, Long>{
+    boolean existsByUserAndCourse(User user , Course course);
 	List<Enrollment> findByUserId(Long userId);
+	List<Enrollment> findByCourseId(Long courseId);
+	
 }

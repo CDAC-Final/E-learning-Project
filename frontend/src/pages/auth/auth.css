@@ -1,0 +1,57 @@
+/* .auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    background-color: white;
+  
+    .auth-form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+  
+      h2 {
+        font-size: 24px;
+        color: #8a4baf;
+        margin-bottom: 15px;
+      }
+  
+      form {
+        text-align: left;
+  
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 14px;
+          color: #333;
+        }
+  
+        input {
+          width: 92%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+      }
+    }
+  } */
+  /* .auth-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f4ff, #e3e7ff);
+    background-image: url("https://image.slidesdocs.com/responsive-images/background/online-education-c4d-network-learning-powerpoint-background_c1873ceae7__960_540.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+
+  
+  /* Make the form appear above the overlay */
