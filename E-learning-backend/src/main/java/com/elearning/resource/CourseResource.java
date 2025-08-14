@@ -498,241 +498,241 @@ public class CourseResource {
 
 	}
 
-//	public ResponseEntity<CourseResponseDto> fetchCoursesByName(String courseName) {
-//
-//		LOG.info("received request for fetching the courses by mentor and status");
-//
-//		CourseResponseDto response = new CourseResponseDto();
-//
-//		if (courseName == null) {
-//			response.setResponseMessage("missing input");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		List<Course> courses = this.courseService.getByNameAndStatus(courseName, ActiveStatus.ACTIVE.value());
-//
-//		if (CollectionUtils.isEmpty(courses)) {
-//			response.setResponseMessage("Courses not found!!!");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
-//		}
-//
-//		for (Course course : courses) {
-//			List<CourseSection> sections = course.getSections();
-//			if (!CollectionUtils.isEmpty(sections)) {
-//
-//				for (CourseSection section : sections) {
-//
-//					List<CourseSectionTopic> topics = section.getCourseSectionTopics();
-//
-//					if (!CollectionUtils.isEmpty(topics)) {
-//
-//						for (CourseSectionTopic topic : topics) {
-//							topic.setVideoFileName("");
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
-//		}
-//
-//		response.setCourses(courses);
-//		response.setResponseMessage("Courses Fetched Successful!!!");
-//		response.setSuccess(true);
-//
-//		return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
-//
-//	}
-//
-//	public void fetchCourseImage(String courseImageName, HttpServletResponse resp) {
-//		Resource resource = storageService.loadCourseNote(courseImageName);
-//		if (resource != null) {
-//			try (InputStream in = resource.getInputStream()) {
-//				ServletOutputStream out = resp.getOutputStream();
-//				FileCopyUtils.copy(in, out);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-//
-//	public void fetchCourseTopicVideo(String courseSectionTopicVideoFileName, HttpServletResponse resp) {
-//		Resource resource = storageService.loadCourseVideo(courseSectionTopicVideoFileName);
-//		if (resource != null && resource.exists()) {
-//			try (InputStream in = resource.getInputStream(); ServletOutputStream out = resp.getOutputStream()) {
-//				resp.setContentType("video/mp4");
-//				FileCopyUtils.copy(in, out);
-//				out.flush();
-//			} catch (IOException e) {
-//
-//				LOG.info("Video Player closed or any netwrok issue!!!");
-//
-//				e.printStackTrace();
-//				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//
-//			}
-//		} else {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//		}
-//	}
-//
-//	public ResponseEntity<CourseResponseDto> fetchCourseByIdAndUserId(Integer courseId, Integer userId) {
-//
-//		LOG.info("received request for fetching the course by id and used id");
-//
-//		CourseResponseDto response = new CourseResponseDto();
-//
-//		if (courseId == null || courseId == 0) {
-//			response.setResponseMessage("missing course id");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		Course course = this.courseService.getById(courseId);
-//
-//		if (course == null) {
-//			response.setResponseMessage("course not found!!!");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		List<CourseSection> sections = course.getSections();
-//
-//		if (!CollectionUtils.isEmpty(sections)) {
-//
-//			for (CourseSection section : sections) {
-//
-//				List<CourseSectionTopic> topics = section.getCourseSectionTopics();
-//
-//				if (!CollectionUtils.isEmpty(topics)) {
-//
-//					for (CourseSectionTopic topic : topics) {
-//						topic.setVideoFileName("");
-//					}
-//
-//				}
-//
-//			}
-//
-//		}
-//
-//		User student = null;
-//
-//		if (userId > 0 && course.getType().equals(CourseType.PAID.value())) {
-//			student = this.userService.getUserById(userId);
-//
-//			if (student != null) {
-//
-//				List<Booking> bookings = this.bookingService.getByCourseAndCustomer(course, student);
-//
-//				if (!CollectionUtils.isEmpty(bookings)) {
-//					response.setIsCoursePurchased(CoursePurchased.YES.value());
-//				} else {
-//					response.setIsCoursePurchased(CoursePurchased.NO.value());
-//				}
-//
-//			}
-//
-//		}
-//
-//		response.setCourse(course);
-//		response.setResponseMessage("Course Fetched Successful!!!");
-//		response.setSuccess(true);
-//
-//		return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
-//
-//	}
-//
-//	public ResponseEntity<CommonApiResponse> deleteCourse(Integer courseId) {
-//
-//		LOG.info("received request for fetching the course by using id");
-//
-//		CommonApiResponse response = new CommonApiResponse();
-//
-//		if (courseId == null || courseId == 0) {
-//			response.setResponseMessage("missing course id");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		Course course = this.courseService.getById(courseId);
-//
-//		if (course == null) {
-//			response.setResponseMessage("course not found!!!");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		course.setStatus(ActiveStatus.DEACTIVATED.value());
-//		this.courseService.update(course);
-//
-//		response.setResponseMessage("Course Deleted Successful!!!");
-//		response.setSuccess(true);
-//
-//		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
-//
-//	}
-//
-//	public ResponseEntity<Resource> downloadNotes(String notesFileName, HttpServletResponse response) {
-//
-//		Resource resource = storageService.loadCourseNote(notesFileName);
-//		if (resource == null) {
-//			// Handle file not found
-//			return ResponseEntity.notFound().build();
-//		}
-//
-//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Course_Notes\"")
-//				.body(resource);
-//
-//	}
-//
-//	public ResponseEntity<MentorDashboardDataResponse> fetchMentorDashboardData(Integer mentorId) {
-//
-//		LOG.info("received request for fetching the mentor dashboard data");
-//
-//		MentorDashboardDataResponse response = new MentorDashboardDataResponse();
-//
-//		if (mentorId == null || mentorId == 0) {
-//			response.setResponseMessage("missing input");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		User mentor = this.userService.getUserById(mentorId);
-//
-//		if (mentor == null || !mentor.getRole().equals(UserRole.ROLE_MENTOR.value())) {
-//			response.setResponseMessage("mentor not found");
-//			response.setSuccess(false);
-//
-//			return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.BAD_REQUEST);
-//		}
-//
-//		Long totalActiveCourse = courseService.getCountByMentorAndStatus(mentor, ActiveStatus.ACTIVE.value());
-//		Long totalDeactivatedCourse = courseService.getCountByMentorAndStatus(mentor, ActiveStatus.DEACTIVATED.value());
-//
-//		List<Booking> bookings = this.bookingService.getByMentor(mentor);
-//
-//		response.setBookings(!CollectionUtils.isEmpty(bookings) ? bookings : new ArrayList<>());
-//		response.setTotalCoursePurchases(!CollectionUtils.isEmpty(bookings) ? bookings.size() : 0);
-//
-//		response.setTotalActiveCourse(totalActiveCourse != null ? totalActiveCourse : 0);
-//		response.setTotalDeletedCourse(totalDeactivatedCourse != null ? totalDeactivatedCourse : 0);
-//		response.setTotalPurchaseAmount(mentor.getAmount());
-//		response.setResponseMessage("Dashboard Data Fetched Successful!!!");
-//		response.setSuccess(true);
-//
-//		return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.OK);
-//
-//	}
+	public ResponseEntity<CourseResponseDto> fetchCoursesByName(String courseName) {
+
+		LOG.info("received request for fetching the courses by mentor and status");
+
+		CourseResponseDto response = new CourseResponseDto();
+
+		if (courseName == null) {
+			response.setResponseMessage("missing input");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		List<Course> courses = this.courseService.getByNameAndStatus(courseName, ActiveStatus.ACTIVE.value());
+
+		if (CollectionUtils.isEmpty(courses)) {
+			response.setResponseMessage("Courses not found!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
+		}
+
+		for (Course course : courses) {
+			List<CourseSection> sections = course.getSections();
+			if (!CollectionUtils.isEmpty(sections)) {
+
+				for (CourseSection section : sections) {
+
+					List<CourseSectionTopic> topics = section.getCourseSectionTopics();
+
+					if (!CollectionUtils.isEmpty(topics)) {
+
+						for (CourseSectionTopic topic : topics) {
+							topic.setVideoFileName("");
+						}
+
+					}
+
+				}
+
+			}
+		}
+
+		response.setCourses(courses);
+		response.setResponseMessage("Courses Fetched Successful!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
+
+	}
+
+	public void fetchCourseImage(String courseImageName, HttpServletResponse resp) {
+		Resource resource = storageService.loadCourseNote(courseImageName);
+		if (resource != null) {
+			try (InputStream in = resource.getInputStream()) {
+				ServletOutputStream out = resp.getOutputStream();
+				FileCopyUtils.copy(in, out);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void fetchCourseTopicVideo(String courseSectionTopicVideoFileName, HttpServletResponse resp) {
+		Resource resource = storageService.loadCourseVideo(courseSectionTopicVideoFileName);
+		if (resource != null && resource.exists()) {
+			try (InputStream in = resource.getInputStream(); ServletOutputStream out = resp.getOutputStream()) {
+				resp.setContentType("video/mp4");
+				FileCopyUtils.copy(in, out);
+				out.flush();
+			} catch (IOException e) {
+
+				LOG.info("Video Player closed or any netwrok issue!!!");
+
+				e.printStackTrace();
+				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+			}
+		} else {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		}
+	}
+
+	public ResponseEntity<CourseResponseDto> fetchCourseByIdAndUserId(Integer courseId, Integer userId) {
+
+		LOG.info("received request for fetching the course by id and used id");
+
+		CourseResponseDto response = new CourseResponseDto();
+
+		if (courseId == null || courseId == 0) {
+			response.setResponseMessage("missing course id");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		Course course = this.courseService.getById(courseId);
+
+		if (course == null) {
+			response.setResponseMessage("course not found!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CourseResponseDto>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		List<CourseSection> sections = course.getSections();
+
+		if (!CollectionUtils.isEmpty(sections)) {
+
+			for (CourseSection section : sections) {
+
+				List<CourseSectionTopic> topics = section.getCourseSectionTopics();
+
+				if (!CollectionUtils.isEmpty(topics)) {
+
+					for (CourseSectionTopic topic : topics) {
+						topic.setVideoFileName("");
+					}
+
+				}
+
+			}
+
+		}
+
+		User student = null;
+
+		if (userId > 0 && course.getType().equals(CourseType.PAID.value())) {
+			student = this.userService.getUserById(userId);
+
+			if (student != null) {
+
+				List<Booking> bookings = this.bookingService.getByCourseAndCustomer(course, student);
+
+				if (!CollectionUtils.isEmpty(bookings)) {
+					response.setIsCoursePurchased(CoursePurchased.YES.value());
+				} else {
+					response.setIsCoursePurchased(CoursePurchased.NO.value());
+				}
+
+			}
+
+		}
+
+		response.setCourse(course);
+		response.setResponseMessage("Course Fetched Successful!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<CourseResponseDto>(response, HttpStatus.OK);
+
+	}
+
+	public ResponseEntity<CommonApiResponse> deleteCourse(Integer courseId) {
+
+		LOG.info("received request for fetching the course by using id");
+
+		CommonApiResponse response = new CommonApiResponse();
+
+		if (courseId == null || courseId == 0) {
+			response.setResponseMessage("missing course id");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		Course course = this.courseService.getById(courseId);
+
+		if (course == null) {
+			response.setResponseMessage("course not found!!!");
+			response.setSuccess(false);
+
+			return new ResponseEntity<CommonApiResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		course.setStatus(ActiveStatus.DEACTIVATED.value());
+		this.courseService.update(course);
+
+		response.setResponseMessage("Course Deleted Successful!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<CommonApiResponse>(response, HttpStatus.OK);
+
+	}
+
+	public ResponseEntity<Resource> downloadNotes(String notesFileName, HttpServletResponse response) {
+
+		Resource resource = storageService.loadCourseNote(notesFileName);
+		if (resource == null) {
+			// Handle file not found
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"Course_Notes\"")
+				.body(resource);
+
+	}
+
+	public ResponseEntity<MentorDashboardDataResponse> fetchMentorDashboardData(Integer mentorId) {
+
+		LOG.info("received request for fetching the mentor dashboard data");
+
+		MentorDashboardDataResponse response = new MentorDashboardDataResponse();
+
+		if (mentorId == null || mentorId == 0) {
+			response.setResponseMessage("missing input");
+			response.setSuccess(false);
+
+			return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		User mentor = this.userService.getUserById(mentorId);
+
+		if (mentor == null || !mentor.getRole().equals(UserRole.ROLE_MENTOR.value())) {
+			response.setResponseMessage("mentor not found");
+			response.setSuccess(false);
+
+			return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		Long totalActiveCourse = courseService.getCountByMentorAndStatus(mentor, ActiveStatus.ACTIVE.value());
+		Long totalDeactivatedCourse = courseService.getCountByMentorAndStatus(mentor, ActiveStatus.DEACTIVATED.value());
+
+		List<Booking> bookings = this.bookingService.getByMentor(mentor);
+
+		response.setBookings(!CollectionUtils.isEmpty(bookings) ? bookings : new ArrayList<>());
+		response.setTotalCoursePurchases(!CollectionUtils.isEmpty(bookings) ? bookings.size() : 0);
+
+		response.setTotalActiveCourse(totalActiveCourse != null ? totalActiveCourse : 0);
+		response.setTotalDeletedCourse(totalDeactivatedCourse != null ? totalDeactivatedCourse : 0);
+		response.setTotalPurchaseAmount(mentor.getAmount());
+		response.setResponseMessage("Dashboard Data Fetched Successful!!!");
+		response.setSuccess(true);
+
+		return new ResponseEntity<MentorDashboardDataResponse>(response, HttpStatus.OK);
+
+	}
 
 }

@@ -81,48 +81,48 @@ public class CourseController {
 		return courseResource.fetchCoursesByMentor(mentorId, status, videoShow);
 	}
 
-//	@GetMapping("/fetch/category-wise")
-//	@Operation(summary = "Api to fetch courses by using category")
-//	public ResponseEntity<CourseResponseDto> fetchCoursesByCategory(@RequestParam("categoryId") Integer categoryId,
-//			@RequestParam("videoShow") String videoShow) {
-//		return courseResource.fetchCoursesByCategory(categoryId, videoShow);
-//	}
-//
-//	@GetMapping("/fetch/name-wise")
-//	@Operation(summary = "Api to fetch courses by using name")
-//	public ResponseEntity<CourseResponseDto> fetchCoursesByName(@RequestParam("courseName") String courseName) {
-//		return courseResource.fetchCoursesByName(courseName);
-//	}
-//
-//	@DeleteMapping("/delete")
-//	@Operation(summary = "Api to delete the course")
-//	public ResponseEntity<CommonApiResponse> deleteCourse(@RequestParam("courseId") Integer courseId) {
-//		return courseResource.deleteCourse(courseId);
-//	}
-//
-//	@GetMapping(value = "/{courseImageName}", produces = "image/*")
-//	public void fetchCourseImage(@PathVariable("courseImageName") String courseImageName, HttpServletResponse resp) {
-//		this.courseResource.fetchCourseImage(courseImageName, resp);
-//	}
-//
-//	@GetMapping(value = "/video/{courseSectionTopicVideoFileName}", produces = "video/*")
-//	public void fetchCourseTopicVideo(
-//			@PathVariable("courseSectionTopicVideoFileName") String courseSectionTopicVideoFileName,
-//			HttpServletResponse resp) {
-//		this.courseResource.fetchCourseTopicVideo(courseSectionTopicVideoFileName, resp);
-//	}
-//
-//	@GetMapping("notes/{notesFileName}/download")
-//	@Operation(summary = "Api for downloading the Course Notes")
-//	public ResponseEntity<Resource> downloadNotes(@PathVariable("notesFileName") String notesFileName,
-//			HttpServletResponse response) throws DocumentException, IOException {
-//		return this.courseResource.downloadNotes(notesFileName, response);
-//	}
-//	
-//	@GetMapping("/mentor/dashboard")
-//	@Operation(summary = "Api to fetch mentor dashboard data")
-//	public ResponseEntity<MentorDashboardDataResponse> fetchMentorDashboardData(@RequestParam("mentorId") Integer mentorId) {
-//		return courseResource.fetchMentorDashboardData(mentorId);
-//	}
+	@GetMapping("/fetch/category-wise")
+	@Operation(summary = "Api to fetch courses by using category")
+	public ResponseEntity<CourseResponseDto> fetchCoursesByCategory(@RequestParam("categoryId") Integer categoryId,
+			@RequestParam("videoShow") String videoShow) {
+		return courseResource.fetchCoursesByCategory(categoryId, videoShow);
+	}
+
+	@GetMapping("/fetch/name-wise")
+	@Operation(summary = "Api to fetch courses by using name")
+	public ResponseEntity<CourseResponseDto> fetchCoursesByName(@RequestParam("courseName") String courseName) {
+		return courseResource.fetchCoursesByName(courseName);
+	}
+
+	@DeleteMapping("/delete")
+	@Operation(summary = "Api to delete the course")
+	public ResponseEntity<CommonApiResponse> deleteCourse(@RequestParam("courseId") Integer courseId) {
+		return courseResource.deleteCourse(courseId);
+	}
+
+	@GetMapping(value = "/{courseImageName}", produces = "image/*")
+	public void fetchCourseImage(@PathVariable("courseImageName") String courseImageName, HttpServletResponse resp) {
+		this.courseResource.fetchCourseImage(courseImageName, resp);
+	}
+
+	@GetMapping(value = "/video/{courseSectionTopicVideoFileName}", produces = "video/*")
+	public void fetchCourseTopicVideo(
+			@PathVariable("courseSectionTopicVideoFileName") String courseSectionTopicVideoFileName,
+			HttpServletResponse resp) {
+		this.courseResource.fetchCourseTopicVideo(courseSectionTopicVideoFileName, resp);
+	}
+
+	@GetMapping("notes/{notesFileName}/download")
+	@Operation(summary = "Api for downloading the Course Notes")
+	public ResponseEntity<Resource> downloadNotes(@PathVariable("notesFileName") String notesFileName,
+			HttpServletResponse response) throws DocumentException, IOException {
+		return this.courseResource.downloadNotes(notesFileName, response);
+	}
+
+	@GetMapping("/mentor/dashboard")
+	@Operation(summary = "Api to fetch mentor dashboard data")
+	public ResponseEntity<MentorDashboardDataResponse> fetchMentorDashboardData(@RequestParam("mentorId") Integer mentorId) {
+		return courseResource.fetchMentorDashboardData(mentorId);
+	}
 
 }
