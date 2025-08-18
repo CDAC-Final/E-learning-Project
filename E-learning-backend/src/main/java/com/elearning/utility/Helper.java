@@ -2,7 +2,7 @@ package com.elearning.utility;
 
 public class Helper {
 
-	public static String generateTourBookingId() {
+	public static String generateBookingId() {
 
 		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
 
