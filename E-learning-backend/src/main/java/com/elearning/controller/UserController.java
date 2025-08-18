@@ -1,6 +1,7 @@
 package com.elearning.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,7 +41,7 @@ public class UserController {
 		return userResource.registerAdmin(request);
 	}
 
-	// for customer and tour guide register
+	// for customer and  register
 	@PostMapping("register")
 	@Operation(summary = "Api to register customer or seller user")
 	public ResponseEntity<CommonApiResponse> registerUser(@RequestBody RegisterUserRequestDto request) {
